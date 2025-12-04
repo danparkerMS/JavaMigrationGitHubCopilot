@@ -1,27 +1,25 @@
 package com.nytour.demo.model;
 
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Date;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 /**
- * Message Entity - Legacy JPA 2.1 with javax.persistence
+ * Message Entity - Modern JPA with jakarta.persistence
  * 
- * MIGRATION CHALLENGES:
- * 1. javax.persistence.* will migrate to jakarta.persistence.*
- * 2. java.util.Date (deprecated) will migrate to java.time.LocalDateTime
- * 3. @Type annotation is Hibernate-specific and may need updates
- * 4. Primitive wrapper constructors (new Long()) are deprecated in Java 9+
+ * MIGRATED FROM:
+ * - javax.persistence.* → jakarta.persistence.*
+ * - java.util.Date → java.time.LocalDateTime
+ * - @Type annotation removed (not needed in Hibernate 6.x)
+ * - Removed deprecated primitive wrapper constructors
  */
 @Entity
 @Table(name = "messages")
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull(message = "Content cannot be null")
@@ -33,46 +31,41 @@ public class Message {
     @Column(name = "author")
     private String author;
 
-    // Using deprecated java.util.Date instead of java.time.LocalDateTime
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date", nullable = false)
-    private Date createdDate;
+    private LocalDateTime createdDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
-    private Date updatedDate;
+    private LocalDateTime updatedDate;
 
     @Column(name = "is_active")
-    @Type(type = "yes_no") // Hibernate 4.x specific type annotation
     private Boolean active;
 
     // Default constructor required by JPA
     public Message() {
-        // Initialize with deprecated Date constructor
-        this.createdDate = new Date();
-        this.active = Boolean.TRUE; // Using deprecated Boolean constructor pattern
+        this.createdDate = LocalDateTime.now();
+        this.active = Boolean.TRUE;
     }
 
-    // Constructor with deprecated Date API
+    // Constructor with modern LocalDateTime API
     public Message(String content, String author) {
         this.content = content;
         this.author = author;
-        this.createdDate = new Date(); // Will migrate to LocalDateTime.now()
-        this.active = new Boolean(true); // Deprecated constructor
+        this.createdDate = LocalDateTime.now();
+        this.active = true;
     }
 
-    // PrePersist callback using deprecated Date
+    // PrePersist callback using LocalDateTime
     @PrePersist
     protected void onCreate() {
         if (createdDate == null) {
-            createdDate = new Date();
+            createdDate = LocalDateTime.now();
         }
     }
 
-    // PreUpdate callback using deprecated Date
+    // PreUpdate callback using LocalDateTime
     @PreUpdate
     protected void onUpdate() {
-        updatedDate = new Date();
+        updatedDate = LocalDateTime.now();
     }
 
     // Getters and Setters
@@ -101,19 +94,19 @@ public class Message {
         this.author = author;
     }
 
-    public Date getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getUpdatedDate() {
+    public LocalDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(Date updatedDate) {
+    public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 

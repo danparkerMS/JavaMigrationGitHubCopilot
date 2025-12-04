@@ -1,8 +1,0 @@
-com/nytour/demo/controller/MessageController$CreateMessageRequest.class
-com/nytour/demo/Application.class
-com/nytour/demo/repository/MessageRepository.class
-com/nytour/demo/controller/MessageController.class
-com/nytour/demo/service/MessageService.class
-com/nytour/demo/model/Message.class
-com/nytour/demo/task/MessageScheduledTask.class
-com/nytour/demo/controller/MessageController$UpdateMessageRequest.class

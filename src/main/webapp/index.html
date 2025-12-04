@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Message Service - Legacy Application</title>
+    <title>Message Service - Modern Application</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -19,18 +19,18 @@
         }
         h1 {
             color: #333;
-            border-bottom: 3px solid #007bff;
+            border-bottom: 3px solid #28a745;
             padding-bottom: 10px;
         }
         .info {
-            background-color: #e7f3ff;
-            border-left: 4px solid #007bff;
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
             padding: 15px;
             margin: 20px 0;
         }
-        .warning {
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
+        .tech {
+            background-color: #e7f3ff;
+            border-left: 4px solid #007bff;
             padding: 15px;
             margin: 20px 0;
         }
@@ -56,22 +56,23 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Message Service - Legacy Application</h1>
+        <h1>✅ Message Service - Migrated Application</h1>
         
         <div class="info">
-            <strong>Welcome!</strong> This is a legacy Spring Framework 4.x application running on JDK 1.8.
-            <br>It's designed for a migration workshop to demonstrate modernizing Java applications.
+            <strong>Migration Complete!</strong> This application has been successfully migrated from 
+            legacy Spring Boot 2.7.x to modern Spring Boot 3.x running on JDK 17.
         </div>
 
-        <div class="warning">
-            <strong>⚠️ Legacy Technology Stack:</strong>
+        <div class="tech">
+            <strong>🚀 Modern Technology Stack:</strong>
             <ul>
-                <li>JDK 1.8 (2014)</li>
-                <li>Spring Framework 4.3.x (pre-Spring Boot)</li>
-                <li>Hibernate 4.x</li>
-                <li>javax.* packages (pre-Jakarta EE)</li>
-                <li>Log4j 1.x</li>
-                <li>Deprecated Date/Calendar APIs</li>
+                <li>JDK 17 LTS</li>
+                <li>Spring Boot 3.2.5</li>
+                <li>Spring Framework 6.x</li>
+                <li>Hibernate 6.x</li>
+                <li>jakarta.* packages (Jakarta EE 10)</li>
+                <li>SLF4J/Logback</li>
+                <li>java.time APIs</li>
             </ul>
         </div>
 
@@ -114,8 +115,22 @@
             <strong>/api/messages/author/{author}</strong> - Get messages by author
         </div>
 
-        <h2>🗄️ Database Console</h2>
+        <div class="endpoint">
+            <span class="method get">GET</span>
+            <strong>/api/messages/stats</strong> - Get message statistics
+        </div>
+
+        <h2>🏥 Health & Monitoring</h2>
         <div class="info">
+            <strong>Actuator Endpoints:</strong>
+            <br>
+            <a href="/actuator/health" target="_blank">/actuator/health</a> - Health check
+            <br>
+            <a href="/actuator/info" target="_blank">/actuator/info</a> - Application info
+        </div>
+
+        <h2>🗄️ Database Console</h2>
+        <div class="tech">
             <strong>H2 Console:</strong> <a href="/h2-console" target="_blank">/h2-console</a>
             <br>
             <small>
@@ -127,15 +142,15 @@
 
         <h2>⏰ Scheduled Task</h2>
         <div class="info">
-            A scheduled task runs every minute to report message statistics.
+            A scheduled task runs every 60 seconds to report message statistics.
             <br>Check the console logs to see the output.
         </div>
 
-        <h2>🎯 Migration Workshop</h2>
+        <h2>📚 Documentation</h2>
         <p>
-            This application is ready for migration! Check the <code>/Migration</code> folder
-            for step-by-step instructions on using GitHub Copilot to modernize this application
-            to Spring Boot 3.x and JDK 17+.
+            <a href="https://github.com/danparkerMS/JavaMigrationGitHubCopilot/blob/main/MIGRATION.md">MIGRATION.md</a> - Migration summary
+            <br>
+            <a href="https://github.com/danparkerMS/JavaMigrationGitHubCopilot/blob/main/DEPLOYMENT.md">DEPLOYMENT.md</a> - Azure deployment guide
         </p>
     </div>
 </body>
