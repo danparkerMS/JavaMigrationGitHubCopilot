@@ -43,7 +43,7 @@ public class Message {
     // Default constructor required by JPA
     public Message() {
         this.createdDate = LocalDateTime.now();
-        this.active = Boolean.TRUE;
+        this.active = true;
     }
 
     // Constructor with modern LocalDateTime API
