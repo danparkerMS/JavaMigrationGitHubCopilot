@@ -2,9 +2,9 @@
 
 Welcome to the Java Application Migration Workshop! This hands-on workshop teaches you how to use **GitHub Copilot as an autonomous team member** to modernize legacy Java applications.
 
-## 🎯 Workshop Overview
+## 🎯 Current Application Status: **MIGRATED** ✅
 
-Learn to migrate a legacy Java application from:
+This application has been successfully migrated from:
 - **JDK 1.8** → **JDK 17** (LTS)
 - **Spring Boot 2.7.x** → **Spring Boot 3.x** (includes Spring 6.x)
 - **javax.\* packages** → **jakarta.\* packages**
@@ -13,63 +13,48 @@ Learn to migrate a legacy Java application from:
 
 ## 📋 Prerequisites
 
-- **GitHub Account** with Copilot access
-- **JDK 1.8** installed (for running the legacy app)
-- **JDK 17 or higher** installed (for the migrated app)
+- **JDK 17 or higher** installed
 - **Maven 3.6+** installed
 - **Git** installed
-- **VS Code** or **IntelliJ IDEA** (recommended)
+- **Docker** (for containerized deployment)
 - **Azure Account** (for deployment steps, optional)
 
-## 🏗️ Legacy Application Architecture
+## 🏗️ Application Architecture
 
-This workshop includes a complete legacy Spring 4.x application with:
+This application includes:
 
 ### Core Components
 - **REST API** (`MessageController`) - CRUD operations for messages
 - **Scheduled Task** (`MessageScheduledTask`) - Runs every 60 seconds to report statistics
-- **JPA/Hibernate** - Data persistence with H2 in-memory database
-- **Spring Boot** - Legacy 2.7.x with intentional outdated patterns
+- **JPA/Hibernate 6.x** - Data persistence with H2 in-memory database
+- **Spring Boot 3.x** - Modern framework with best practices
 
-### Technology Stack (Legacy)
-| Component | Version | Modern Alternative |
-|-----------|---------|-------------------|
-| JDK | 1.8 | JDK 17/21 |
-| Spring Boot | 2.7.18 | Spring Boot 3.x |
-| Spring Framework | 5.3.31 | Spring Framework 6.x |
-| Hibernate | 5.6.15 | Hibernate 6.x |
-| javax.* packages | javax | jakarta.* (EE 9+) |
-| Log4j | 1.2.17 | SLF4J/Logback |
-| Commons Lang | 2.6 | Commons Lang 3.x |
-| Date/Time API | java.util.Date | java.time.* |
+### Technology Stack
+| Component | Version |
+|-----------|---------|
+| JDK | 17 LTS |
+| Spring Boot | 3.2.5 |
+| Spring Framework | 6.1.x |
+| Hibernate | 6.x |
+| Jakarta EE | 10 (jakarta.\*) |
+| Logging | SLF4J/Logback |
+| Commons Lang | 3.14.0 |
+| Date/Time API | java.time.\* |
 
-### Migration Challenges
-
-The legacy code intentionally includes patterns that require real migration work:
-
-1. **javax.* → jakarta.*** - Package namespace changes
-2. **Date/Calendar → java.time** - Modern date/time API
-3. **XML Config → Java Config** - Spring configuration modernization
-4. **Field Injection → Constructor Injection** - Best practice improvements
-5. **Log4j 1.x → SLF4J/Logback** - Logging framework update
-6. **RestTemplate → WebClient/RestClient** - HTTP client modernization
-7. **Deprecated APIs** - Remove obsolete constructors and methods
-8. **WAR → JAR/Container** - Packaging and deployment changes
-
-## 🚀 Quick Start - Running the Legacy Application
+## 🚀 Quick Start
 
 ### 1. Clone the Repository
 
 ```bash
 git clone <repository-url>
-cd JavaSample
+cd JavaMigrationGitHubCopilot
 ```
 
-### 2. Verify JDK 1.8
+### 2. Verify JDK 17
 
 ```bash
 java -version
-# Should show: java version "1.8.0_xxx"
+# Should show: openjdk version "17.x.x" or similar
 ```
 
 ### 3. Build and Run
@@ -86,9 +71,9 @@ java -jar target/message-service.jar
 ### 4. Test the Application
 
 Open your browser to:
-- **Home Page**: http://localhost:8080
 - **API Endpoints**: http://localhost:8080/api/messages
 - **H2 Console**: http://localhost:8080/h2-console
+- **Health Check**: http://localhost:8080/actuator/health
 
 ### 5. Test API Endpoints
 
@@ -106,6 +91,9 @@ curl http://localhost:8080/api/messages/1
 
 # Search messages
 curl "http://localhost:8080/api/messages/search?keyword=migration"
+
+# Get statistics
+curl http://localhost:8080/api/messages/stats
 ```
 
 ### 6. Observe Scheduled Task
@@ -115,57 +103,98 @@ Watch the console output - every minute you'll see:
 ========================================
 Message Statistics Task - Executing
 ========================================
-Execution Time: 2025-11-16 10:23:45
+Execution Time: 2025-01-01 10:23:45
 Total Messages: 5
 Active Messages: 5
 ...
 ```
 
-## 📚 Workshop Steps
+## 🐳 Docker Deployment
 
-Follow the migration workshop in order:
+### Build Docker Image
 
-| Step | Title | Duration | Description |
-|------|-------|----------|-------------|
-| [Step 0](Migration/step-00-introduction.md) | Introduction to GitHub Copilot | 15 min | Learn about Copilot as an autonomous team member |
-| [Step 1](Migration/step-01-create-assessment-issue.md) | Create Assessment Issue | 20 min | Have Copilot analyze the legacy application |
-| [Step 2](Migration/step-02-review-assessment.md) | Review Assessment | 20 min | Evaluate migration strategies and Azure options |
-| [Step 3](Migration/step-03-create-migration-issue.md) | Create Migration Issue | 10 min | Request Copilot to implement the migration |
-| [Step 4](Migration/step-04-review-migration.md) | Review Migration Work | 30 min | Examine the migrated code and changes |
-| [Step 5](Migration/step-05-local-testing.md) | Local Testing | 30 min | Build and test the modernized application |
-| [Step 6](Migration/step-06-deployment.md) | Azure Deployment | 45 min | Deploy to Azure (App Service, Functions, or Containers) |
+```bash
+docker build -t message-service:latest .
+```
 
-**Total Time**: 2-3 hours (core workshop) | 3-4 hours (with deployment)
+### Run Container
 
-## 🎓 Learning Objectives
+```bash
+docker run -p 8080:8080 message-service:latest
+```
 
-By the end of this workshop, you will:
+### Test Containerized Application
 
-✅ Understand how to use GitHub Copilot as an autonomous team member  
-✅ Know how to create effective prompts for code migration  
-✅ Be able to assess migration complexity and compare approaches  
-✅ Have hands-on experience migrating JDK 1.8 → JDK 17  
-✅ Understand Spring Boot 2.7.x → Spring Boot 3.x migration  
-✅ Know how to handle javax.* → jakarta.* package changes  
-✅ Be familiar with Azure deployment options for Java applications  
-✅ Have confidence to apply these techniques to your own projects  
+```bash
+curl http://localhost:8080/api/messages
+curl http://localhost:8080/actuator/health
+```
 
-## 🔍 What Makes This Workshop Unique?
+## ☁️ Azure Deployment
 
-Unlike simple dependency updates, this workshop demonstrates:
+See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed Azure Container Apps deployment instructions.
 
-- **Real migration challenges** - Not just POM changes, but actual code transformations
-- **Deprecated API usage** - Learn to modernize Date/Calendar, primitive wrappers, etc.
-- **Configuration migration** - XML → Java Config, web.xml → embedded server
-- **Cloud-native patterns** - From WAR files to containerized deployments
-- **AI-assisted development** - Let Copilot do the heavy lifting while you guide
+Quick deployment:
+```bash
+# Set variables
+export RESOURCE_GROUP="message-service-rg"
+export APP_NAME="message-service"
 
-## 📖 Additional Resources
+# Create and deploy (see DEPLOYMENT.md for full steps)
+az containerapp create --name $APP_NAME ...
+```
 
-- [Spring Boot 3.x Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Migration-Guide)
-- [Java 17 Migration Guide](https://docs.oracle.com/en/java/javase/17/migrate/getting-started.html)
-- [Jakarta EE Documentation](https://jakarta.ee/specifications/)
-- [GitHub Copilot Documentation](https://docs.github.com/en/copilot)
+## 📚 Documentation
+
+- [MIGRATION.md](MIGRATION.md) - Detailed summary of all migration changes
+- [DEPLOYMENT.md](DEPLOYMENT.md) - Azure Container Apps deployment guide
+- [Migration/](Migration/) - Step-by-step workshop instructions
+
+## 📖 Workshop Steps
+
+Follow the migration workshop documentation in the `Migration/` folder:
+
+| Step | Title | Description |
+|------|-------|-------------|
+| [Step 0](Migration/step-00-introduction.md) | Introduction | Learn about Copilot as an autonomous team member |
+| [Step 1](Migration/step-01-create-assessment-issue.md) | Create Assessment | Have Copilot analyze the legacy application |
+| [Step 2](Migration/step-02-review-assessment.md) | Review Assessment | Evaluate migration strategies |
+| [Step 3](Migration/step-03-create-migration-issue.md) | Create Migration Issue | Request Copilot to implement the migration |
+| [Step 4](Migration/step-04-review-migration.md) | Review Migration | Examine the migrated code |
+| [Step 5](Migration/step-05-local-testing.md) | Local Testing | Build and test the modernized application |
+| [Step 6](Migration/step-06-deployment.md) | Azure Deployment | Deploy to Azure Container Apps |
+
+## 🎓 Key Migration Changes
+
+### Package Namespace
+```java
+// Before                  // After
+javax.persistence.*    →   jakarta.persistence.*
+javax.validation.*     →   jakarta.validation.*
+```
+
+### Date/Time API
+```java
+// Before                  // After
+java.util.Date         →   java.time.LocalDateTime
+SimpleDateFormat       →   DateTimeFormatter
+```
+
+### Dependency Injection
+```java
+// Before (Field Injection)    // After (Constructor Injection)
+@Autowired                     private final MessageService service;
+private MessageService svc;    public Controller(MessageService svc) {
+                                   this.service = svc;
+                               }
+```
+
+### Logging
+```java
+// Before (Log4j 1.x)          // After (SLF4J)
+Logger.getLogger(...)      →   LoggerFactory.getLogger(...)
+logger.info("msg: " + x)   →   logger.info("msg: {}", x)
+```
 
 ## 🤝 Contributing
 
@@ -177,4 +206,4 @@ This workshop is provided as-is for educational purposes.
 
 ---
 
-**Ready to start?** Head to [Step 0: Introduction to GitHub Copilot](Migration/step-00-introduction.md) to begin your migration journey! 🚀
+**Application migrated successfully!** 🎉
